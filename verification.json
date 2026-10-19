@@ -1,0 +1,40 @@
+{
+  "task_id": "T-20261019-DESMOS",
+  "project": "05_projects/graph-calc-jp",
+  "date": "2026-10-19",
+  "unit_tests": {
+    "command": "node tests/test-parser.mjs && node tests/test-classify.mjs",
+    "result": "28 tests passed, 0 failed",
+    "evidence": "tests/test-parser.mjs (13件), tests/test-classify.mjs (15件)"
+  },
+  "browser_verification": {
+    "environment": "ZCode in-app browser, localhost:8741 + production",
+    "checks": [
+      {"name": "初期表示 y=x^2 描画", "result": "pass", "evidence": "evidence/01-initial-y-equals-x2.png"},
+      {"name": "スライダー自動生成 (y=a x^2+b → a,b スライダー行・トースト通知)", "result": "pass", "evidence": "evidence/02-slider-auto-create.png"},
+      {"name": "別名表示 (a→p: スライダー行と式プレビューで色付き別名・注記表示)", "result": "pass", "evidence": "evidence/03-alias-display-p.png"},
+      {"name": "陰関数(円)+不等式領域(破線境界)+点の同時描画", "result": "pass", "evidence": "evidence/04-circle-inequality-point.png"},
+      {"name": "チュートリアル表示(11章・目次)", "result": "pass", "evidence": "evidence/05-tutorial-top.png"},
+      {"name": "試すボタン→アプリ連携(図形5種一括投入・2次曲線すべて描画)", "result": "pass", "evidence": "evidence/06-conics-from-tutorial-button.png"},
+      {"name": "エラー文言 (y=z → 「使えない文字「z」です。変数は x, y, a, b だけが使えます。」)", "result": "pass"},
+      {"name": "導関数 y=d/dx(x^3-3x) 解析成功", "result": "pass"},
+      {"name": "度数法/ラジアン切替", "result": "pass"},
+      {"name": "?add= パラメータ (y=sin(x)~x^2+y^2=9) で2式追加・URLクリーンアップ", "result": "pass"}
+    ]
+  },
+  "deployment": {
+    "github_repo": "https://github.com/iwadonchan/graph-calc-jp",
+    "revision": "15a151126849f46c6a49a1d6e70eb4ff981d7ad4",
+    "cloudflare_project": "graph-calc-jp",
+    "production_url": "https://graph-calc-jp.pages.dev/",
+    "http_status": {"slash": 200, "tutorial": 200, "css": 200},
+    "screenshot": "evidence/07-production-live.png",
+    "deployed_via": "wrangler pages deploy app --project-name graph-calc-jp --branch main"
+  },
+  "known_limitations": [
+    "媒介変数表示・極座標・積分・場合分け・定義域制限・テーブル・関数定義・3Dは未対応(SPEC.mdのスコープ外、チュートリアルで未対応と案内)",
+    "変数は x, y とスライダー変数 a, b のみ(利用者指定の仕様)。他の文字は別名表示で賄う",
+    "Cloudflare連携は直接アップロード方式(Git連携の自動デプロイはダッシュボード設定が必要・未実施)"
+  ],
+  "runtime_note": "mamoliiランタイムの実行キューはCodex subscriptionトランスポート不能のためblocked維持(W1/W2 uncertain・予約0μ$は保持)。実業務はホスト側オーケストレーターがT-20261014-LIVEの前例に従い遂行・記録した。"
+}

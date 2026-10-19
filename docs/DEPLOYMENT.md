@@ -22,6 +22,14 @@
 - 公開済みと報告するときは対象リビジョン（commit hash）と配信結果の証拠（URL・ステータス）を添える
 - ローカル検証を公開成功と報告しない
 
-## 実施記録
+## 実施記録（2026-10-19 実施済み）
 
-（実施後に追記する）
+- GitHubリポジトリ: https://github.com/iwadonchan/graph-calc-jp （public、branch main）
+- 対象リビジョン: `15a151126849f46c6a49a1d6e70eb4ff981d7ad4`（チュートリアル追加コミット）
+- Cloudflare Pagesプロジェクト: `graph-calc-jp`（production branch: main、直接アップロード方式）
+- 本番URL: https://graph-calc-jp.pages.dev/ （HTTP 200を確認、ブラウザ実機でグラフ描画まで確認）
+- デプロイ時プレビューURL: https://5388af3d.graph-calc-jp.pages.dev
+- 配信確認: `/` 200、`/tutorial/` 200、`/css/style.css` 200（2026-10-19）
+- 証拠: evidence/07-production-live.png（本番URLのスクリーンショット）
+
+備考: 現在の連携はwranglerによる直接アップロード。ダッシュボードでPagesとGitHubリポジトリをGit連携させると、pushをトリガーした自動デプロイになる（設定はホスト操作・未実施）。
