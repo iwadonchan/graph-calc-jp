@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>mamolii グラフ電卓 — 高校数学のためのグラフツール</title>
+<meta name="description" content="日本の高校数学(数学I・II・III)のためのグラフ電卓。関数・図形・不等式・スライダー・微分を日本語UIで描けます。">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%232d70b3'/><path d='M4 26 C10 26 10 6 16 6 S22 26 28 26' stroke='white' stroke-width='2.5' fill='none'/></svg>">
+</head>
+<body>
+<div id="app">
+  <div id="panel">
+    <div id="panel-header">
+      <h1>mamolii <span>グラフ電卓</span></h1>
+      <div class="spacer"></div>
+      <a href="tutorial/" target="_blank" rel="noopener">使い方</a>
+    </div>
+    <ul id="expr-list"></ul>
+    <div id="panel-footer">
+      <button id="btn-add" type="button">＋ 式を追加</button>
+    </div>
+  </div>
+  <div id="canvas-wrap">
+    <canvas id="graph-canvas"></canvas>
+    <button id="panel-toggle" type="button">式リスト</button>
+    <div id="toolbar">
+      <button id="btn-zoom-in" type="button" title="拡大">＋</button>
+      <button id="btn-zoom-out" type="button" title="縮小">−</button>
+      <button id="btn-home" type="button" title="初期表示に戻す">⌂</button>
+    </div>
+    <div id="angle-badge">三角関数の角度: <button id="btn-angle" type="button">ラジアン</button></div>
+    <div id="hint-toast"></div>
+  </div>
+</div>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
