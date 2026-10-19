@@ -62,7 +62,10 @@ function node(n, aliasMap, varColors, atom) {
     case 'neg': {
       const w = el('span', 'mgroup');
       w.append(el('span', 'mop', '−'));
-      w.append(node(n.e, aliasMap, varColors, needsParens(n.e, '*', false) && n.e.k === 'bin'));
+      const parens = n.e.k === 'bin' && (n.e.op === '+' || n.e.op === '-');
+      if (parens) w.append(el('span', 'mparen', '('));
+      w.append(node(n.e, aliasMap, varColors, false));
+      if (parens) w.append(el('span', 'mparen', ')'));
       return w;
     }
     case 'abs': {
@@ -149,9 +152,15 @@ function node(n, aliasMap, varColors, atom) {
       }
       const w = el('span', 'mgroup');
       const opSym = n.op === '*' ? mulSym(n.l, n.r) : ` ${n.op} `;
-      w.append(node(n.l, aliasMap, varColors, false));
+      const appendOperand = (child, right) => {
+        const parens = needsParens(child, n.op, right);
+        if (parens) w.append(el('span', 'mparen', '('));
+        w.append(node(child, aliasMap, varColors, false));
+        if (parens) w.append(el('span', 'mparen', ')'));
+      };
+      appendOperand(n.l, false);
       if (opSym) w.append(el('span', 'mop', opSym));
-      w.append(node(n.r, aliasMap, varColors, false));
+      appendOperand(n.r, true);
       return w;
     }
     default: return el('span', 'merr', '?');

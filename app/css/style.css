@@ -202,3 +202,18 @@ html, body {
     box-shadow: 0 1px 4px rgba(20,35,55,0.15);
   }
 }
+
+/* 数式の見た目と入力補助 */
+.expr-preview { font-size: 21px; min-height: 32px; padding-top: 5px; }
+.math-active { box-shadow: inset 3px 0 #2d70b3; background: #f0f6fc; }
+#panel-footer { max-height: 50vh; overflow-y: auto; flex-shrink: 0; }
+.math-keyboard-toggle { width: 100%; margin-top: 8px; padding: 8px; border: 1px solid #bcd2e8; border-radius: 6px; background: white; color: #245b90; cursor: pointer; }
+.math-input-help { font-size: 11px; line-height: 1.5; color: #526477; margin: 8px 0; }
+.math-keys { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.math-keys button { min-width: 0; min-height: 36px; border: 1px solid #ccd7e3; border-radius: 5px; background: #f4f7fb; color: #20364c; font-size: 15px; cursor: pointer; touch-action: manipulation; }
+.math-keys button:hover { background: #dceafa; }
+.math-keys button:focus-visible { outline: 2px solid #2d70b3; outline-offset: 1px; }
+@media (max-height: 600px) { .math-keys button { min-height: 30px; } }
+.math-keys button { white-space: nowrap; }
+.math-keys button[aria-label="式を消去"] { font-size: 12px; padding: 1px; }
+#expr-list { min-height: 0; }

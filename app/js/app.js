@@ -7,6 +7,7 @@ import { parse, ParseError, collectVars } from './parser.js';
 import { classify, SLIDER_VARS } from './classify.js';
 import { Grapher } from './grapher.js';
 import { renderMath } from './pretty.js';
+import { attachMathInput, createMathKeyboard } from './math-input.js';
 
 const COLORS = ['#c74440', '#2d70b3', '#388c46', '#6042a6', '#fa7e19', '#000000'];
 const STORE_KEY = 'graphcalcjp-state-v1';
@@ -64,7 +65,13 @@ function classifyRow(row) {
 function getItem(row) {
   const key = row.text + '|' + state.angleMode + '|' + row.color + '|' + row.width + '|' + (row.dash || []).join(',');
   const c = compiled.get(row.id);
-  if (c && c.key === key) return c;
+  if (c && c.key === key) {
+    // Compiled functions are reusable, but their parameter snapshot must stay live.
+    if (c.result.kind === 'item') {
+      for (const v of SLIDER_VARS) c.result.item.env[v] = state.sliders[v]?.value;
+    }
+    return c;
+  }
   const result = classifyRow(row);
   const entry = { key, result };
   compiled.set(row.id, entry);
@@ -90,12 +97,16 @@ function doRender() {
     const { result } = getItem(row);
     if (result.kind === 'item') items.push(result.item);
   }
+  for (const item of items) {
+    for (const v of SLIDER_VARS) item.env[v] = state.sliders[v]?.value;
+  }
   grapher.render(items, state.view);
 }
 
 // ---------- UI構築 ----------
 
 const exprList = document.getElementById('expr-list');
+createMathKeyboard(document.getElementById('panel-footer'));
 
 function addRow(text = '', opts = {}) {
   const row = {
@@ -162,17 +173,18 @@ function buildRowEl(row) {
   input.type = 'text';
   input.className = 'expr-input';
   input.value = row.text;
-  input.placeholder = '式を入力（例: y=x^2）';
+  input.placeholder = '式を入力（例: y=x²）';
+  input.setAttribute('aria-label', '数式（半角英数字）');
   input.setAttribute('autocomplete', 'off');
   input.setAttribute('spellcheck', 'false');
-  input.addEventListener('input', () => {
+  attachMathInput(input, () => {
     row.text = input.value;
     refreshRowDisplay(row, li);
     scheduleRender();
     saveSoon();
-  });
+  }, showHintToast);
   input.addEventListener('keydown', (ev) => {
-    if (ev.key === 'Enter') {
+    if (ev.key === 'Enter' && !ev.isComposing && ev.keyCode !== 229) {
       ev.preventDefault();
       const r = addRow('');
       const elx = document.getElementById('row-' + r.id);
