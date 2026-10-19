@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="日本の高校生のためのグラフ電卓「mamolii グラフ電卓」の使い方チュートリアル。スライダー・別名表示・不等式の領域・微分まで、この1ページで独習できます。">
+<title>mamolii グラフ電卓 使い方チュートリアル｜高校生のためのグラフ入門</title>
+<style>
+  :root{
+    --ink:#1f2937;
+    --sub:#4b5563;
+    --accent:#4f46e5;
+    --accent-soft:#eef2ff;
+    --accent-line:#c7d2fe;
+    --sky:#0369a1;
+    --sky-soft:#e0f2fe;
+    --amber-soft:#fffbeb;
+    --amber-line:#fde68a;
+    --amber-ink:#92400e;
+    --rose-soft:#fff1f2;
+    --rose-line:#fecdd3;
+    --rose-ink:#9f1239;
+    --line:#e5e7eb;
+    --card:#ffffff;
+    --bg:#f5f7fb;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP",Meiryo,sans-serif;
+    line-height:1.75;
+    font-size:16px;
+  }
+  .wrap{ max-width:920px; margin:0 auto; padding:0 20px 80px; }
+  header.hero{
+    background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 60%,#2563eb 100%);
+    color:#fff;
+    padding:48px 20px 40px;
+  }
+  header.hero .wrap{ padding-bottom:0; }
+  header.hero h1{ margin:0 0 10px; font-size:1.9rem; line-height:1.4; }
+  header.hero p{ margin:0 0 18px; opacity:.95; }
+  .hero-links a{
+    display:inline-block;
+    margin-right:12px;
+    background:rgba(255,255,255,.16);
+    border:1px solid rgba(255,255,255,.5);
+    color:#fff;
+    text-decoration:none;
+    padding:8px 18px;
+    border-radius:999px;
+    font-weight:600;
+    font-size:.95rem;
+  }
+  .hero-links a:hover{ background:rgba(255,255,255,.28); }
+  h2{
+    font-size:1.35rem;
+    margin:0 0 14px;
+    padding-left:14px;
+    border-left:6px solid var(--accent);
+    line-height:1.5;
+  }
+  h3{ font-size:1.05rem; margin:24px 0 8px; color:var(--accent); }
+  section.lesson{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:28px 28px 22px;
+    margin-top:32px;
+    box-shadow:0 2px 10px rgba(15,23,42,.05);
+  }
+  .goal{
+    background:var(--accent-soft);
+    border:1px solid var(--accent-line);
+    border-radius:10px;
+    padding:10px 16px;
+    margin:0 0 16px;
+    color:#3730a3;
+    font-weight:600;
+    font-size:.98rem;
+  }
+  .goal::before{ content:"目標："; color:var(--accent); }
+  ol.steps{ padding-left:1.4em; margin:0 0 16px; }
+  ol.steps li{ margin-bottom:8px; }
+  ol.steps li ul{ margin:4px 0 8px; }
+  .try{
+    background:#f8fafc;
+    border:1px dashed var(--accent-line);
+    border-radius:12px;
+    padding:14px 16px;
+    margin:16px 0;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    align-items:center;
+  }
+  .try .try-label{ font-size:.85rem; color:var(--sub); margin-right:auto; }
+  button.trybtn{
+    background:linear-gradient(135deg,#4f46e5,#6366f1);
+    color:#fff;
+    border:none;
+    border-radius:999px;
+    padding:10px 22px;
+    font-size:.95rem;
+    font-weight:700;
+    cursor:pointer;
+    font-family:inherit;
+    box-shadow:0 3px 8px rgba(79,70,229,.35);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  button.trybtn:hover{ transform:translateY(-2px); box-shadow:0 6px 14px rgba(79,70,229,.4); }
+  button.trybtn.small{ padding:4px 14px; font-size:.82rem; box-shadow:none; }
+  .tip{
+    background:var(--amber-soft);
+    border:1px solid var(--amber-line);
+    border-radius:10px;
+    padding:10px 16px;
+    margin:14px 0 0;
+    color:var(--amber-ink);
+    font-size:.95rem;
+  }
+  .tip::before{
+    content:"ひとことTips";
+    display:inline-block;
+    background:var(--amber-line);
+    color:#78350f;
+    border-radius:6px;
+    font-size:.75rem;
+    font-weight:700;
+    padding:1px 8px;
+    margin-right:8px;
+    vertical-align:middle;
+  }
+  code{
+    background:var(--accent-soft);
+    color:#3730a3;
+    border-radius:6px;
+    padding:1px 7px;
+    font-family:ui-monospace,Menlo,Consolas,"SF Mono",monospace;
+    font-size:.92em;
+    white-space:nowrap;
+  }
+  .formula{ font-family:ui-monospace,Menlo,Consolas,"SF Mono",monospace; }
+  nav.toc{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:20px 24px;
+    margin-top:24px;
+  }
+  nav.toc h2{ border:none; padding:0; margin:0 0 10px; font-size:1.1rem; }
+  nav.toc ol{ margin:0; padding-left:1.4em; columns:2; column-gap:32px; font-size:.95rem; }
+  nav.toc li{ margin-bottom:4px; break-inside:avoid; }
+  nav.toc a{ color:var(--accent); text-decoration:none; }
+  nav.toc a:hover{ text-decoration:underline; }
+  .backlink{ text-align:right; margin-top:14px; font-size:.85rem; }
+  .backlink a{ color:var(--sub); text-decoration:none; }
+  .backlink a:hover{ color:var(--accent); }
+  .note{
+    background:var(--rose-soft);
+    border:1px solid var(--rose-line);
+    border-radius:10px;
+    padding:12px 16px;
+    color:var(--rose-ink);
+    font-size:.95rem;
+    margin:16px 0;
+  }
+  .note strong{ color:var(--rose-ink); }
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:14px 0 6px;
+    font-size:.9rem;
+    background:#fff;
+  }
+  th,td{ border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }
+  th{ background:var(--accent-soft); color:#3730a3; white-space:nowrap; }
+  tbody tr:nth-child(even){ background:#fafbfe; }
+  td .formula{ white-space:nowrap; }
+  details.faq{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:14px 18px;
+    margin:12px 0;
+  }
+  details.faq summary{
+    cursor:pointer;
+    font-weight:700;
+    color:#1e3a8a;
+    font-size:1rem;
+  }
+  details.faq[open] summary{ margin-bottom:8px; }
+  footer{
+    text-align:center;
+    color:var(--sub);
+    font-size:.85rem;
+    margin-top:48px;
+  }
+  footer a{ color:var(--accent); }
+  ul.plain{ margin:8px 0 16px; padding-left:1.4em; }
+  ul.plain li{ margin-bottom:4px; }
+  .two-col{ display:flex; flex-wrap:wrap; gap:16px; }
+  .two-col > div{ flex:1 1 260px; }
+  @media (max-width:640px){
+    nav.toc ol{ columns:1; }
+    section.lesson{ padding:20px 18px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>mamolii グラフ電卓 使い方チュートリアル</h1>
+    <p>式を入れると即グラフが描ける、高校生のためのグラフ電卓。スライダー・不等式の領域・微分まで、このページだけで独習できます。</p>
+    <div class="hero-links">
+      <a href="../index.html">アプリを開く</a>
+      <a href="#toc">目次へ</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<nav class="toc" id="toc">
+  <h2>目次</h2>
+  <ol>
+    <li><a href="#lesson1">はじめに</a></li>
+    <li><a href="#lesson2">最初のグラフを描いてみよう</a></li>
+    <li><a href="#lesson3">スライダーで動かす</a></li>
+    <li><a href="#lesson4">別名表示（このアプリ独自機能）</a></li>
+    <li><a href="#lesson5">いろいろな関数</a></li>
+    <li><a href="#lesson6">図形のグラフ</a></li>
+    <li><a href="#lesson7">不等式と領域</a></li>
+    <li><a href="#lesson8">微分を見る（数II・数III）</a></li>
+    <li><a href="#lesson9">高校数学の単元別レシピ集</a></li>
+    <li><a href="#lesson10">入力早見表（チートシート）</a></li>
+    <li><a href="#lesson11">よくある質問</a></li>
+  </ol>
+</nav>
+
+<!-- ================= 1 はじめに ================= -->
+<section class="lesson" id="lesson1">
+  <h2>1. はじめに</h2>
+  <p class="goal">アプリで何ができるか、入力の保存のしくみを知る。</p>
+
+  <h3>mamolii グラフ電卓でできること</h3>
+  <ul class="plain">
+    <li><strong>グラフがすぐ描ける</strong>：左側の式リストに数式を入れると、その場でグラフが描かれます。インストールも登録も不要のWebアプリです。</li>
+    <li><strong>いろいろな式</strong>：<span class="formula">y = f(x)</span>、<span class="formula">x = g(y)</span>、円などの陰関数、不等式の領域、点、導関数 <span class="formula">d/dx</span> に対応。</li>
+    <li><strong>スライダー</strong>：式に <code>a</code> や <code>b</code> を書くと、値を動かせるスライダーが自動で追加されます。</li>
+    <li><strong>別名表示（独自機能）</strong>：スライダー変数 <code>a</code> の見える名前を「<code>n</code>」や「<code>p</code>」などに変えられます（第4章で詳しく）。</li>
+  </ul>
+
+  <h3>入力の保存について（安心して使うために）</h3>
+  <ol class="steps">
+    <li>式リストに入力した式は、<strong>自動でブラウザに保存</strong>されます。保存ボタンを押す必要はありません。</li>
+    <li>ただし保存先は「このブラウザの中」です。<strong>別の端末や別のブラウザには引き継がれません</strong>。また、ブラウザのサイトデータを削除すると消えることがあります。</li>
+    <li>大事な式は、メモやスクリーンショットにも残しておくと安心です。</li>
+  </ol>
+
+  <div class="note">
+    <strong>あらかじめご了承ください（未対応の機能）</strong><br>
+    次の機能には対応していません。対応していると誤解しないよう、このページでは正直に書いています。<br>
+    媒介変数表示、極座標（<span class="formula">r = …</span>）、積分（<span class="formula">∫</span>）、場合分け（<span class="formula">{ }</span>）、定義域制限（<span class="formula">{ }</span>）、表（テーブル）、関数定義（<span class="formula">f(x) = …</span>）、3Dグラフ。
+  </div>
+
+  <div class="try">
+    <span class="try-label">まずは一度さわってみましょう。クリックするとアプリが開いて式が入力された状態になります。</span>
+    <button class="trybtn" onclick="tryExpr('y=x^2')">アプリで試す</button>
+  </div>
+
+  <p class="tip">変数は <code>x</code>, <code>y</code> とスライダー変数 <code>a</code>, <code>b</code> のみです。<code>k</code>, <code>n</code>, <code>m</code>, <code>z</code> など他の文字は入力エラーになります。詳細は第11章の「よくある質問」で説明します。</p>
+
+  <p class="backlink"><a href="#toc">↑ 目次へ</a></p>
+</section>
+
+<!-- ================= 2 最初のグラフ ================= -->
+<section class="lesson" id="lesson2">
+  <h2>2. 最初のグラフを描いてみよう</h2>
+  <p class="goal"><span class="formula">y = x<sup>2</sup></span> を入力して、画面の操作（ズーム・移動・初期表示）ができるようになる。</p>
+
+  <ol class="steps">
+    <li>アプリを開いて、左側の<strong>式リストの1行目</strong>に <code>y=x^2</code> と入力します（すべて半角英数）。</li>
+    <li>入力した瞬間に、右側に放物線 <span class="formula">y = x²</span> が描かれます。「実行」ボタンなどは不要です。</li>
+    <li><strong>移動</strong>：グラフの場所をドラッグすると、画面をぐりぐり動かせます。</li>
+    <li><strong>ズーム</strong>：マウスホイールで拡大・縮小できます。画面の＋−ボタンでも調整できます。</li>
+    <li><strong>初期表示に戻す</strong>：画面の ⌂ ボタンを押すと、最初の表示に戻ります。</li>
+    <li><strong>座標を読む</strong>：曲線にマウスを乗せると、その位置の座標が表示されます。</li>
+  </ol>
+
+  <div class="try">
+    <span class="try-label">放物線 y = x² を描いて操作を練習しよう。</span>
+    <button class="trybtn" onclick="tryExpr('y=x^2')">アプリで試す</button>
+  </div>
+
+  <p class="tip">入力は基本半角です。掛け算の <code>*</code> の代わりに ×、割り算の <code>/</code> の代わりに ÷ を入力してもOKです。</p>
+
+  <p class="backlink"><a href="#toc">↑ 目次へ</a></p>
+</section>
+
+<!-- ================= 3 スライダー ================= -->
+<section class="lesson" id="lesson3">
+  <h2>3. スライダーで動かす</h2>
+  <p class="goal"><span class="formula">y = a x<sup>2</sup></span> の <code>a</code> をスライダーで動かし、放物線の開き方の変化をつかむ。</p>
+
+  <ol class="steps">
+    <li>式リストに <code>y=a x^2</code> と入力します。</li>
+    <li>式の中の <code>a</code> を見つけると、アプリが自動で <strong>a のスライダー行</strong>を追加します（初期範囲は −10〜10、刻みは 0.1）。</li>
+    <li>スライダーのつまみを動かすと、グラフがリアルタイムに変化します。<code>a</code> が大きいほど細く、小さいほど開いた放物線になります。</li>
+    <li><strong>▶（アニメーション）</strong>ボタンを押すと、<code>a</code> が自動で動き続けます。変化のようすを眺められます。</li>
+    <li><strong>⚙（設定）</strong>ボタンでは、スライダーの<strong>最小値・最大値・刻み</strong>を変更できます。</li>
+    <li>「<code>a</code> を 2 に固定した状態で試したい」場合は、式リストに <code>a=2</code> のように書けば、<code>a</code> の値を決められます。</li>
+  </ol>
+
+  <div class="try">
+    <span class="try-label">a のスライダー付きで開く。</span>
+    <button class="trybtn" onclick="tryExpr('y=a x^2')">アプリで試す（a を動かす）</button>
+    <span class="try-label">a を 2 に固定して開く。</span>
+    <button class="trybtn" onclick="tryExpr('y=a x^2~a=2')">アプリで試す（a=2 で開く）</button>
+  </div>
+
+  <p class="tip"><code>b</code> も同じようにスライダー変数として使えます。2つの係数を同時に動かしたいとき（例：<code>y=a x+b</code>）に便利です。</p>
+
+  <p class="backlink"><a href="#toc">↑ 目次へ</a></p>
+</section>
+
+<!-- ================= 4 別名表示 ================= -->
+<section class="lesson" id="lesson4">
+  <h2>4. 別名表示（このアプリ独自機能）</h2>
+  <p class="goal">スライダー変数 <code>a</code> の見た目上の名前を「<code>p</code>」「<code>n</code>」などに変える方法を覚える。ただし<strong>見た目だけが変わり、計算の内部では <code>a</code> のまま</strong>ということを理解する。</p>
+
+  <p>問題の紙には <code>p</code> や <code>n</code> などの文字で書かれているのに、アプリでは変数は <code>x</code>, <code>y</code>, <code>a</code>, <code>b</code> しか使えません。「式を問題どおりの文字で読みたい」ときに役立つのが、このアプリ独自の<strong>別名表示</strong>です。</p>
+
+  <ol class="steps">
+    <li>式リストに <code>y=a x^2</code> と入力して、a のスライダー行を出します。</li>
+    <li>スライダー行の <strong>⚙（設定）</strong>を開き、「<strong>別名表示</strong>」の欄に <code>p</code> と入力します。</li>
+    <li>式リストとスライダーの表示で、<code>a</code> が <code>p</code> という名前で<strong>色付き</strong>で見えるようになります。たとえば <span class="formula">y = p·x²</span> のように見えます。</li>
+    <li>このとき<strong>計算の内部では <code>a</code> のまま</strong>です。スライダーを動かせば <code>p</code> の値が変わります。別名は「表示の名前」だけのものです。</li>
+    <li>元に戻すには、⚙で別名表示を空にします。</li>
+  </ol>
+
+  <h3>数B（数列）で使う例：別名を「r」にしてみる</h3>
+  <ol class="steps">
+    <li>初項 1・公比 <span class="formula">r</span> の等比数列の増え方を調べたいとします。式リストに <code>y=a^x</code> と入力します。このとき <strong>x は「項数 n」のつもり</strong>で読み、<code>a</code> を「公比 r」の役割にします。</li>
+    <li>⚙で a の別名表示を <code>r</code> にすると、式リストは <span class="formula">y = r<sup>x</sup></span> と見えます。「公比 r を 1 より大きくすると項はどんどん大きくなり、0 から 1 だと収束する」ことがグラフで見て取れます。</li>
+    <li>公比は正なので、⚙でスライダーの<strong>最小値を 0.1 くらい</strong>にしておくと見やすいです。</li>
+  </ol>
+
+  <p>別名は <code>x</code>, <code>y</code>, <code>k</code>, <code>n</code> など<strong>好きな名前</strong>を設定できます。数列の問題のように <code>n</code> の文字を式の中で見たいときも、同じ手順で a の別名表示を「<code>n</code>」にすれば、式リストには <code>n</code> と色付きで表示されます（入力と計算は <code>a</code> のままです）。</p>
+
+  <div class="try">
+    <span class="try-label">試すボタンで式を入れたら、⚙から別名表示を設定してみよう。</span>
+    <button class="trybtn" onclick="tryExpr('y=a x^2')">アプリで試す（別名を p に）</button>
+    <button class="trybtn" onclick="tryExpr('y=a^x')">アプリで試す（数列・別名を r に）</button>
+  </div>
+
+  <p class="tip">別名表示はあくまで「見た目」です。入力するときは <code>a</code> と打つ、という点だけ忘れないでください。</p>
+
+  <p class="backlink"><a href="#toc">↑ 目次へ</a></p>
+</section>
+
+<!-- ================= 5 いろいろな関数 ================= -->
+<section class="lesson" id="lesson5">
+  <h2>5. いろいろな関数</h2>
+  <p class="goal">三角関数・指数対数・絶対値のグラフを入力し、角度の単位（ラジアン／度数法）を切り替えられるようになる。</p>
+
+  <h3>三角関数（数学I・数II）</h3>
+  <ol class="steps">
+    <li>式リストに <code>y=sin(x)</code> と入力すると、正弦曲線が描かれます。</li>
+    <li><strong>角度は初期状態でラジアン</strong>です。<span class="formula">sin(π/2) = 1</span> のようにラジアンで計算されます。</li>
+    <li>度数法（°）で使いたいときは、<strong>画面左下のボタン</strong>で度数法に切り替えます。切り替えると <span class="formula">sin(30) = 0.5</span> のようになります。</li>
+    <li>使える関数：<code>sin</code>, <code>cos</code>, <code>tan</code>、逆三角関数は <code>arcsin</code>, <code>arccos</code>, <code>arctan</code>（または <code>asin</code>, <code>acos</code>, <code>atan</code>）。</li>
+  </ol>
+
+  <h3>指数関数と対数関数（数II）</h3>
+  <ol class="steps">
+    <li><code>y=2^x</code> と入力すると指数関数、<code>y=log(x)</code> と入力すると対数関数が描かれます。</li>
+    <li><code>log</code> は<strong>常用対数（底 10）</strong>、<code>ln</code> は<strong>自然対数（底 e）</strong>です。</li>
+    <li><code>y=x</code> も一緒に入れると、<span class="formula">y = 2<sup>x</sup></span> と <span class="formula">y = log(x)</span> が直線 <span class="formula">y = x</span> について対称（逆関数の関係）になっているのが確かめられます。</li>
+    <li>対数のグラフは、定義より <span class="formula">x &gt; 0</span> の範囲にしか描かれません。</li>
+  </ol>
+
+  <h3>絶対値（数学I）</h3>
+  <ol class="steps">
+    <li><code>y=abs(x-1)</code> と入力します。<span class="formula">y = |x − 1|</span> のグラフが描かれます。</li>
+    <li>縦線2本を使った <code>|x-1|</code> の形でも入力できます。</li>
+    <li>他にも <code>sqrt</code>（または √）、<code>floor</code>, <code>ceil</code>, <code>round</code>, <code>max(a,b)</code>, <code>min(a,b)</code>, <code>mod(a,b)</code>, <code>sign(x)</code> が使えます。</li>
+  </ol>
+
+  <div class="try">
+    <span class="try-label">三角関数：左下のボタンで度数法への切替も試そう。</span>
+    <button class="trybtn" onclick="tryExpr('y=sin(x)~y=cos(x)')">アプリで試す（sin と cos）</button>
+    <span class="try-label">指数・対数と y=x：</span>
+    <button class="trybtn" onclick="tryExpr('y=2^x~y=log(x)~y=x')">アプリで試す（2^x・log(x)・y=x）</button>
+    <span class="try-label">絶対値：</span>
+    <button class="trybtn" onclick="tryExpr('y=abs(x-1)')">アプリで試す（|x−1|）</button>
+  </div>
+
+  <p class="tip">定数は <code>pi</code> または π、自然対数の底は <code>e</code> が使えます。例：<code>sin(pi/6)</code>、<code>e^x</code>。</p>
+
+  <p class="backlink"><a href="#toc">↑ 目次へ</a></p>
+</section>
+
+<!-- ================= 6 図形のグラフ ================= -->
+<section class="lesson" id="lesson6">
+  <h2>6. 図形のグラフ</h2>
+  <p class="goal">直線・円・楕円・放物線・双曲線を入力して描けるようになる。点を置いて動かしてみる。</p>
+
+  <p><span class="formula">y</span> と <span class="formula">x</span> が混ざった式（<strong>陰関数</strong>）も、そのまま入力するだけで描けます。</p>
+
+  <table>
+    <thead>
+      <tr><th>図形</th><th>入力例</th><th>グラフ</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>直線</td><td><code>y=2x+1</code></td>
+        <td><button class="trybtn small" onclick="tryExpr('y=2x+1')">試す</button></td>
+      </tr>
+      <tr>
+        <td>円（中心原点・半径5）</td><td><code>x^2+y^2=25</code></td>
+        <td><button class="trybtn small" onclick="tryExpr('x^2+y^2=25')">試す</button></td>
+      </tr>
+      <tr>
+        <td>楕円</td><td><code>x^2/4+y^2/9=1</code></td>
+        <td><button class="trybtn small" onclick="tryExpr('x^2/4+y^2/9=1')">試す</button></td>
+      </tr>
+      <tr>
+        <td>放物線（y が主役）</td><td><code>y^2=4x</code></td>
+        <td><button class="trybtn small" onclick="tryExpr('y^2=4x')">試す</button></td>
+      </tr>
+      <tr>
+        <td>双曲線</td><td><code>x^2-y^2=1</code></td>
+        <td><button class="trybtn small" onclick="tryExpr('x^2-y^2=1')">試す</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>点を置いて動かしてみる</h3>
+  <ol class="steps">
+    <li>式リストに <code>(3,4)</code> のように入力すると、その座標に<strong>点</strong>が置かれます。</li>
+    <li>点は<strong>マウスでドラッグして動かせます</strong>。動かすと座標の値も変わります。</li>
+    <li>円 <code>x^2+y^2=25</code> と一緒に点 <code>(3,4)</code> を置くと、点が円周の上にあることを確かめられます。点をドラッグして円の外へ動かしてみましょう。</li>
+  </ol>
+
+  <div class="try">
+    <span class="try-label">5つの図形をまとめて入力。</span>
+    <button class="trybtn" onclick="tryExpr('y=2x+1~x^2+y^2=25~x^2/4+y^2/9=1~y^2=4x~x^2-y^2=1')">アプリで試す（図形まとめて）</button>
+    <span class="try-label">円と点。点はドラッグで動かせます。</span>
+    <button class="trybtn" onclick="tryExpr('x^2+y^2=25~(3,4)')">アプリで試す（円と点）</button>
+  </div>
+
+  <p class="tip"><code>y^2=4x</code> のように「y が主役」の放物線も <code>y=</code> の形に直す必要はありません。陰関数としてそのまま入力するのがコツです。</p>
+
+  <p class="backlink"><a href="#toc">↑ 目次へ</a></p>
+</section>
+
+<!-- ================= 7 不等式と領域 ================= -->
+<section class="lesson" id="lesson7">
+  <h2>7. 不等式と領域</h2>
+  <p class="goal">不等式を入力して領域を塗りつぶし、「破線の境界」と「実線の境界」の違いを見分けられるようになる。</p>
+
+  <ol class="steps">
+    <li>式リストに <code>y&gt;x^2</code> と入力すると、放物線 <span class="formula">y = x²</span> の<strong>上側の領域</strong>が塗りつぶされます。</li>
+    <li>このとき放物線の境界線は<strong>破線</strong>で描かれます。これは「境界を含まない（≠）」という意味の合図です。</li>
+    <li>次に <code>x^2+y^2&lt;=9</code> と入力すると、半径 3 の円の<strong>内部の領域</strong>が塗りつぶされます。こちらの境界円は<strong>実線</strong>です（境界を含む）。</li>
+    <li>不等号は <code>&lt;</code> <code>&gt;</code> <code>&lt;=</code> <code>&gt;=</code> のほか、全角の ≦ ≧ でも入力できます。</li>
+    <li>式を書き換えて「&lt;」と「&lt;=」を切り替えると、境界線の見た目が変わることを確かめてみましょう。</li>
+  </ol>
+
+  <div class="try">
+    <span class="try-label">放物線の上側（境界は破線）。</span>
+    <button class="trybtn" onclick="tryExpr('y&gt;x^2')">アプリで試す（y &gt; x²）</button>
+    <span class="try-label">円の内部（境界は実線）。</span>
+    <button class="trybtn" onclick="tryExpr('x^2+y^2&lt;=9')">アプリで試す（x²+y² ≦ 9）</button>
+    <span class="try-label">同じ円で「&lt;」と「&lt;=」を見比べる。</span>
+    <button class="trybtn" onclick="tryExpr('x^2+y^2&lt;9~x^2+y^2&lt;=9')">アプリで試す（破線と実線を見比べる）</button>
+  </div>
+
+  <p class="tip">ルールはシンプルです。<strong>厳密な不等号（&lt; &gt;）は境界が破線、≤（&lt;= ≦）≥（&gt;= ≧）は境界が実線</strong>。試験の答案と同じ感覚で読めます。</p>
+
+  <p class="backlink"><a href="#toc">↑ 目次へ</a></p>
+</section>
+
+<!-- ================= 8 微分 ================= -->
+<section class="lesson" id="lesson8">
+  <h2>8. 微分を見る（数II・数III）</h2>
+  <p class="goal"><span class="formula">d/dx</span> の入力方法を覚え、導関数のグラフと接線の傾きの関係をつかむ。</p>
+
+  <h3>導関数のグラフを描く</h3>
+  <ol class="steps">
+    <li>式リストに <code>y=d/dx(x^3)</code> と入力します。これは <span class="formula">x³</span> を微分した導関数 <span class="formula">3x²</span> のグラフです。</li>
+    <li>比べるために <code>y=3 x^2</code> も入れてみましょう。2本のグラフがぴったり重なります。</li>
+    <li><code>d/dx</code> は半角で入力し、<strong>微分したい式をあとのかっこ ( ) で囲む</strong>のが決まりです。</li>
+  </ol>
+
+  <h3>接線の調べ方（スライダーとの合わせ技）</h3>
+  <ol class="steps">
+    <li><code>y=a x^3-3x</code> と <code>y=d/dx(a x^3-3x)</code> の2式を入力します。2つ目の式は 1つ目の式を微分したものなので、<strong>もとの曲線の「傾き」だけを取り出したグラフ</strong>になります。</li>
+    <li>導関数の値が正のところでは曲線は右上がり、負のところでは右下がりです。</li>
+    <li><strong>導関数の値が 0 になる x</strong>（グラフが x 軸と交わる点）の近くで、もとの曲線の山や谷（極値）が来ます。</li>
+    <li>スライダーで <code>a</code> を動かすと、山や谷の位置がどう動くかを観察できます。</li>
+  </ol>
+
+  <div class="try">
+    <span class="try-label">x³ の導関数と 3x² が重なることを確認。</span>
+    <button class="trybtn" onclick="tryExpr('y=d/dx(x^3)~y=3 x^2')">アプリで試す（d/dx(x³)）</button>
+    <span class="try-label">スライダー a と組み合わせて極値を探る。</span>
+    <button class="trybtn" onclick="tryExpr('y=a x^3-3x~y=d/dx(a x^3-3x)')">アプリで試す（接線の調べ方）</button>
+  </div>
+
+  <p class="tip">曲線にマウスを乗せると座標が読めるので、導関数の値が 0 になる x を探すときにも役立ちます。</p>
+
+  <p class="backlink"><a href="#toc">↑ 目次へ</a></p>
+</section>
+
+<!-- ================= 9 レシピ集 ================= -->
+<section class="lesson" id="lesson9">
+  <h2>9. 高校数学の単元別レシピ集</h2>
+  <p class="goal">教科書の単元から、グラフで確かめたい例題を選んで入力する。</p>
+
+  <h3>数学I</h3>
+  <table>
+    <thead>
+      <tr><th>単元</th><th>入力する式</th><th>ねらい</th><th></th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1次関数</td><td><span class="formula">y = a x + b</span></td>
+        <td>傾き a・切片 b をスライダーで動かす</td>
+        <td><button class="trybtn small" onclick="tryExpr('y=a x+b')">試す</button></td>
+      </tr>
+      <tr>
+        <td>2次関数</td><td><span class="formula">y = (x−a)² + b</span></td>
+        <td>頂点 (a, b) がスライダーで平行移動する</td>
+        <td><button class="trybtn small" onclick="tryExpr('y=(x-a)^2+b')">試す</button></td>
+      </tr>
+      <tr>
+        <td>2次不等式の領域</td><td><span class="formula">y &gt; a x²</span></td>
+        <td>境界の放物線が破線になることを確認</td>
+        <td><button class="trybtn small" onclick="tryExpr('y&gt;a x^2')">試す</button></td>
+      </tr>
+      <tr>
+        <td>直線の領域</td><td><span class="formula">2x + 3y ≦ 6</span></td>
+        <td>不等号を変えると実線・破線が切り替わる</td>
+        <td><button class="trybtn small" onclick="tryExpr('2x+3y&lt;=6')">試す</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>数学II</h3>
+  <table>
+    <thead>
+      <tr><th>単元</th><th>入力する式</th><th>ねらい</th><th></th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>三角関数</td><td><span class="formula">y = a sin(bx)</span></td>
+        <td>振幅 a・周期の変化をスライダーで観察</td>
+        <td><button class="trybtn small" onclick="tryExpr('y=a sin(b x)')">試す</button></td>
+      </tr>
+      <tr>
+        <td>指数と対数</td><td><span class="formula">y = 2<sup>x</sup>、y = log(x)、y = x</span></td>
+        <td>逆関数の関係（y = x に対する対称性）</td>
+        <td><button class="trybtn small" onclick="tryExpr('y=2^x~y=log(x)~y=x')">試す</button></td>
+      </tr>
+      <tr>
+        <td>図形と方程式（円）</td><td><span class="formula">(x−a)² + (y−b)² = 25</span></td>
+        <td>中心 (a, b) を動かして円の方程式を理解</td>
+        <td><button class="trybtn small" onclick="tryExpr('(x-a)^2+(y-b)^2=25')">試す</button></td>
+      </tr>
+      <tr>
+        <td>円と直線の位置関係</td><td><span class="formula">y = a x + 1</span> と <span class="formula">x² + y² = 9</span></td>
+        <td>a を動かして交わる・接する・交わらないを見分ける</td>
+        <td><button class="trybtn small" onclick="tryExpr('y=a x+1~x^2+y^2=9')">試す</button></td>
+      </tr>
+      <tr>
+        <td>微分の基礎</td><td><span class="formula">y = x³ − 4x</span> とその導関数</td>
+        <td>導関数が 0 になる点と極値の対応を見る</td>
+        <td><button class="trybtn small" onclick="tryExpr('y=x^3-4x~y=d/dx(x^3-4x)')">試す</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>数学III</h3>
+  <table>
+    <thead>
+      <tr><th>単元</th><th>入力する式</th><th>ねらい</th><th></th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>微分法の確認</td><td><span class="formula">y = d/dx(x³)</span> と <span class="formula">y = 3x²</span></td>
+        <td>導関数のグラフが公式と一致することを確認</td>
+        <td><button class="trybtn small" onclick="tryExpr('y=d/dx(x^3)~y=3 x^2')">試す</button></td>
+      </tr>
+      <tr>
+        <td>係数を含む式の微分</td><td><span class="formula">y = a x³ − 3x</span> とその導関数</td>
+        <td>スライダー a で極値の位置の変化を追う</td>
+        <td><button class="trybtn small" onclick="tryExpr('y=a x^3-3x~y=d/dx(a x^3-3x)')">試す</button></td>
+      </tr>
+      <tr>
+        <td>逆三角関数の微分</td><td><span class="formula">y = arctan(x)</span> とその導関数</td>
+        <td>導関数が <span class="formula">1/(1+x²)</span> と一致することを確認</td>
+        <td><button class="trybtn small" onclick="tryExpr('y=arctan(x)~y=d/dx(arctan(x))')">試す</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>数IIIの人への正直なお知らせ</strong><br>
+    数IIIで登場する<strong>極限・積分（∫）・媒介変数表示・極座標（r = …）のグラフには対応していません</strong>。微分（d/dx）は使えるので、微分法の理解にはこのアプリが活用できます。
+  </div>
+
+  <p class="tip">レシピの式には <code>a</code>, <code>b</code> が入っています。「試す」ボタンを押すとスライダー付きで開くので、すぐに単元の本質を動かして確かめられます。</p>
+
+  <p class="backlink"><a href="#toc">↑ 目次へ</a></p>
+</section>
+
+<!-- ================= 10 入力早見表 ================= -->
+<section class="lesson" id="lesson10">
+  <h2>10. 入力早見表（チートシート）</h2>
+  <p class="goal">入力できる構文をひととおり確認する。迷ったらこの表へ戻ってくる。</p>
+
+  <table>
+    <thead>
+      <tr><th>種類</th><th>入力のしかた</th><th>例</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>変数</td>
+        <td><code>x</code>, <code>y</code> とスライダー変数 <code>a</code>, <code>b</code> のみ。<code>k</code>, <code>n</code>, <code>m</code>, <code>z</code> などは入力エラー</td>
+        <td><code>y=a x+b</code></td>
+      </tr>
+      <tr>
+        <td>四則計算</td>
+        <td><code>+ − * /</code>（× ÷ の記号も可）</td>
+        <td><code>2x+1/2</code></td>
+      </tr>
+      <tr>
+        <td>べき乗</td>
+        <td><code>^</code>（全角の ² ³ も可）</td>
+        <td><code>x^2</code>、<code>2^x</code></td>
+      </tr>
+      <tr>
+        <td>暗黙の乗算</td>
+        <td>* を省略して書ける</td>
+        <td><code>2x</code>、<code>3sin(x)</code>、<code>(x+1)(x-2)</code>、<code>ax</code></td>
+      </tr>
+      <tr>
+        <td>三角関数</td>
+        <td><code>sin cos tan</code>、逆は <code>arcsin arccos arctan</code>（または <code>asin acos atan</code>）</td>
+        <td><code>sin(pi/6)</code></td>
+      </tr>
+      <tr>
+        <td>対数</td>
+        <td><code>log</code>（常用対数）、<code>ln</code>（自然対数）</td>
+        <td><code>log(x)</code>、<code>ln(x)</code></td>
+      </tr>
+      <tr>
+        <td>その他の関数</td>
+        <td><code>sqrt</code>（または √）、<code>abs</code>（または <code>|x|</code>）、<code>floor</code>, <code>ceil</code>, <code>round</code>, <code>max(a,b)</code>, <code>min(a,b)</code>, <code>mod(a,b)</code>, <code>sign(x)</code></td>
+        <td><code>sqrt(x)</code>、<code>abs(x-1)</code></td>
+      </tr>
+      <tr>
+        <td>定数</td>
+        <td><code>pi</code>（または π）、<code>e</code></td>
+        <td><code>sin(pi x)</code>、<code>e^x</code></td>
+      </tr>
+      <tr>
+        <td>不等号</td>
+        <td><code>&lt; &gt; &lt;= &gt;=</code>（≦ ≧ も可）。厳密な不等号は境界が破線</td>
+        <td><code>y&gt;x^2</code></td>
+      </tr>
+      <tr>
+        <td>式の種類</td>
+        <td><span class="formula">y = f(x)</span> / <span class="formula">x = g(y)</span> / 陰関数 / 不等式領域 / 点（ドラッグで動かせる）/ スライダー定義（<code>a=1</code> のように値を決める）</td>
+        <td><code>y=x^2</code>、<code>x^2+y^2=25</code>、<code>(1,2)</code>、<code>a=1</code></td>
+      </tr>
+      <tr>
+        <td>導関数</td>
+        <td><code>d/dx(式)</code> の形（数II・数III）</td>
+        <td><code>y=d/dx(x^2)</code></td>
+      </tr>
+      <tr>
+        <td>y = の省略</td>
+        <td>x を含む式を単独で書くと <span class="formula">y = …</span> として描かれる</td>
+        <td><code>x^2</code> → <span class="formula">y = x²</span></td>
+      </tr>
+      <tr>
+        <td>スライダー</td>
+        <td>式に <code>a</code>, <code>b</code> を書くと自動でスライダー行を追加（初期 −10〜10、刻み 0.1）。▶でアニメーション。⚙で最小値・最大値・刻み・別名表示を設定</td>
+        <td><code>y=a x^2</code></td>
+      </tr>
+      <tr>
+        <td>別名表示（独自機能）</td>
+        <td>スライダーの⚙で「別名表示」に <code>x</code>, <code>y</code>, <code>k</code>, <code>n</code> などを入れると、式リストとスライダーの表示で <code>a</code> がその名前で色付き表示。<strong>計算の内部では a のまま</strong></td>
+        <td><code>y=a x^2</code> で別名「p」→ <span class="formula">y = p·x²</span> と見える</td>
+      </tr>
+      <tr>
+        <td>角度の単位</td>
+        <td>初期はラジアン。画面左下のボタンで度数法に切替</td>
+        <td><code>sin(pi/2)</code> → 1</td>
+      </tr>
+      <tr>
+        <td>画面操作</td>
+        <td>ドラッグで移動／ホイール・＋−ボタンでズーム／⌂で初期表示／曲線にマウスを乗せると座標を表示</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td><strong>未対応</strong></td>
+        <td>媒介変数表示、極座標（<span class="formula">r = …</span>）、積分 ∫、場合分け { }、定義域制限 { }、表（テーブル）、関数定義 <span class="formula">f(x) = …</span>、3D</td>
+        <td>—</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="try">
+    <span class="try-label">色々な構文をまとめて入力してみる（放物線＋スライダー、円、領域、点）。</span>
+    <button class="trybtn" onclick="tryExpr('y=a x^2~x^2+y^2=25~y&gt;x^2~(2,1)')">アプリで試す（まとめデモ）</button>
+  </div>
+
+  <p class="tip">この表の内容は、アプリの式リストのそばにメモしておくと入力ミスが減ります。</p>
+
+  <p class="backlink"><a href="#toc">↑ 目次へ</a></p>
+</section>
+
+<!-- ================= 11 よくある質問 ================= -->
+<section class="lesson" id="lesson11">
+  <h2>11. よくある質問</h2>
+  <p class="goal">エラーメッセージの読み方と、つまずきやすい点を解消する。</p>
+
+  <details class="faq">
+    <summary>「使えない文字」というエラーが出ました</summary>
+    <p>変数は <code>x</code>, <code>y</code> とスライダー変数 <code>a</code>, <code>b</code> の<strong>4つだけ</strong>です。<code>k</code>, <code>n</code>, <code>m</code>, <code>z</code> などの文字は入力エラーになります。これは他のグラフ電卓（Desmosなど）と違う点なので注意してください。</p>
+    <p>数列の一般項などで <code>n</code> を使いたいときは、<strong>a の別名表示を「n」にする</strong>（第4章）ことで、式リスト上は <code>n</code> と色付きで表示されます。入力と計算は <code>a</code> のままです。</p>
+  </details>
+
+  <details class="faq">
+    <summary>式を入れたのにグラフが表示されません</summary>
+    <ul class="plain">
+      <li><code>log(x)</code> は <span class="formula">x &gt; 0</span>、<code>sqrt(…)</code> の中身が負の場所は、数学的に値が存在しないため描かれません。ズームアウト（ホイールや−ボタン）して範囲を広げてみてください。</li>
+      <li><code>x^2</code> のように x だけを含む式は <span class="formula">y = x²</span> として自動で描かれます。真っ白な場合は ⌂ ボタンで初期表示に戻してみてください。</li>
+      <li>全角文字が混ざっていないか確認してください（² ³ × ÷ ≦ ≧ π など一部の記号は対応しています）。</li>
+    </ul>
+  </details>
+
+  <details class="faq">
+    <summary>Desmos のように f(x)=x^2 と書きましたが動きません</summary>
+    <p>このアプリは<strong>関数定義（<span class="formula">f(x) = …</span>）には対応していません</strong>。同じグラフにしたい場合は <code>x^2</code> または <code>y=x^2</code> と入力してください。</p>
+    <p>同様に、<strong>表（テーブル）・場合分け { }・定義域制限 { }・積分 ∫・媒介変数表示・極座標（r = …）・3D</strong> にも対応していません。誤って対応しているものと考えないよう、ご注意ください。</p>
+  </details>
+
+  <details class="faq">
+    <summary>角度が思ったのと違います（sin 30 が 0.5 にならない）</summary>
+    <p>角度は初期状態で<strong>ラジアン</strong>です。<span class="formula">sin(π/6) = 0.5</span> のように計算されます。度数法（30°=0.5）で使いたいときは、<strong>画面左下のボタン</strong>で度数法に切り替えてください。</p>
+  </details>
+
+  <details class="faq">
+    <summary>入力した式は保存されますか？</summary>
+    <p><strong>自動でブラウザに保存</strong>されます。ただし保存は「このブラウザの中」だけなので、別の端末や別のブラウザには引き継がれません。ブラウザのサイトデータを削除すると消えることがあるので、大事な式はメモにも残しておきましょう。</p>
+  </details>
+
+  <details class="faq">
+    <summary>点を自由な位置に動かせますか？</summary>
+    <p>はい。<code>(1,2)</code> のように入力した点は、<strong>マウスでドラッグして動かせます</strong>。動かした位置の座標に点が移動します。</p>
+  </details>
+
+  <details class="faq">
+    <summary>スライダーの動く範囲を変えられますか？</summary>
+    <p>スライダー行の <strong>⚙（設定）</strong>で、<strong>最小値・最大値・刻み</strong>を変更できます。初期値は −10〜10・刻み 0.1 です。⚙では<strong>別名表示</strong>も設定できます（第4章）。</p>
+  </details>
+
+  <div class="try">
+    <span class="try-label">エラーの見た目を知っておくのも勉強です。わざと使えない文字 k を入れてみましょう（アプリに式 y=k x が渡されます）。</span>
+    <button class="trybtn" onclick="tryExpr('y=k x')">アプリで試す（わざとエラーを出してみる）</button>
+  </div>
+
+  <p class="tip">エラーが出たら慌てずに、式の中の文字を確認。変数は <code>x</code>, <code>y</code>, <code>a</code>, <code>b</code> の4つだけ、これさえ覚えれば入力ミスの大半は防げます。</p>
+
+  <p class="backlink"><a href="#toc">↑ 目次へ</a></p>
+</section>
+
+<footer>
+  <p><a href="../index.html">mamolii グラフ電卓 本体を開く</a>｜このチュートリアルは1つのHTMLファイルで動作しています。</p>
+</footer>
+
+</div><!-- /.wrap -->
+
+<script>
+function tryExpr(t){ location.href = '../index.html?add=' + encodeURIComponent(t); }
+</script>
+</body>
+</html>
